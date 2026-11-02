@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Правила общения с пациентами-участниками СВО</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  :root {
+    --teal-dark:  #18A5A5;
+    --teal-mid:   #90CBCB;
+    --teal-light: #C1E1E1;
+    --teal-pale:  #E7F3F3;
+    --text-dark:  #0d3b3b;
+    --text-soft:  #2e5c5c;
+  }
+
+  body {
+    background: linear-gradient(160deg, #E7F3F3 0%, #C1E1E1 100%);
+    font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+    min-height: 100vh;
+    padding: 24px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    color: var(--text-dark);
+  }
+
+  .app {
+    width: 780px;
+    max-width: 100%;
+    background: #ffffff;
+    border-radius: 28px;
+    box-shadow: 0 24px 50px -12px rgba(24,165,165,.35);
+    padding: 28px 28px 32px;
+  }
+
+  /* ---------- Шапка ---------- */
+  .header {
+    text-align: center;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 2px dashed var(--teal-light);
+  }
+  .header h1 {
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: var(--teal-dark);
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+  .header p {
+    font-size: .95rem;
+    color: var(--text-soft);
+    line-height: 1.5;
+  }
+
+  /* ---------- Главная: сетка кнопок ---------- */
+  .menu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .menu-card {
+    background: var(--teal-pale);
+    border: 2px solid var(--teal-light);
+    border-radius: 18px;
+    padding: 20px 18px;
+    cursor: pointer;
+    text-align: left;
+    transition: all .22s ease;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: inherit;
+    font-size: .95rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    line-height: 1.35;
+  }
+  .menu-card:hover {
+    background: var(--teal-mid);
+    border-color: var(--teal-dark);
+    color: #ffffff;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 22px -8px rgba(24,165,165,.55);
+  }
+  .menu-card .icon {
+    font-size: 1.7rem;
+    flex-shrink: 0;
+  }
+  .menu-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1; /* если кнопок нечётное число — последняя на всю ширину */
+  }
+
+  /* ---------- Внутренние страницы ---------- */
+  .page { display: none; }
+  .page.active { display: block; animation: fadeIn .35s ease; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    border: 2px solid var(--teal-dark);
+    color: var(--teal-dark);
+    font-family: inherit;
+    font-weight: 600;
+    font-size: .9rem;
+    padding: 9px 18px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all .2s;
+    margin-bottom: 20px;
+  }
+  .back-btn:hover {
+    background: var(--teal-dark);
+    color: #ffffff;
+    transform: translateX(-3px);
+  }
+
+  .page-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--teal-dark);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+  .page-subtitle {
+    font-size: .85rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-weight: 600;
+    color: var(--teal-mid);
+    margin-bottom: 18px;
+  }
+
+  .rule {
+    background: var(--teal-pale);
+    border-left: 4px solid var(--teal-dark);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-bottom: 14px;
+    font-size: .95rem;
+    line-height: 1.55;
+  }
+  .rule strong {
+    color: var(--teal-dark);
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+
+  .signs {
+    background: #ffffff;
+    border: 1px solid var(--teal-light);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-bottom: 20px;
+  }
+  .signs h3 {
+    font-size: .95rem;
+    font-weight: 700;
+    color: var(--teal-dark);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .signs ul { padding-left: 20px; }
+  .signs li {
+    font-size: .92rem;
+    line-height: 1.55;
+    color: var(--text-soft);
+    margin-bottom: 6px;
+  }
+
+  .rules-section h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--teal-dark);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .tip {
+    background: var(--teal-light);
+    border-radius: 14px;
+    padding: 14px 18px;
+    font-size: .9rem;
+    line-height: 1.5;
+    color: var(--text-dark);
+    margin-top: 8px;
+  }
+  .tip::before { content: "💡 "; }
+
+  /* ---------- Адаптив ---------- */
+  @media (max-width: 620px) {
+    .menu-grid { grid-template-columns: 1fr; }
+    .header h1 { font-size: 1.3rem; }
+    .app { padding: 22px 18px 26px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ================= ГЛАВНАЯ ================= -->
+  <section class="page active" id="page-home">
+    <div class="header">
+      <h1>Правила общения с пациентами-участниками СВО</h1>
+      <p>Выберите категорию, чтобы узнать особенности общения и правила взаимодействия.</p>
+    </div>
+
+    <div class="menu-grid">
+      <button class="menu-card" data-target="page-general">
+        <span class="icon">🤝</span>
+        <span>Общие правила общения</span>
+      </button>
+      <button class="menu-card" data-target="page-trauma">
+        <span class="icon">🧠</span>
+        <span>С психологической травмой</span>
+      </button>
+      <button class="menu-card" data-target="page-appearance">
+        <span class="icon">🩹</span>
+        <span>С выраженными внешними отличиями</span>
+      </button>
+      <button class="menu-card" data-target="page-mobility">
+        <span class="icon">🦽</span>
+        <span>С ограничениями в передвижениях</span>
+      </button>
+      <button class="menu-card" data-target="page-hearing">
+        <span class="icon">👂</span>
+        <span>С нарушением слуха</span>
+      </button>
+      <button class="menu-card" data-target="page-vision">
+        <span class="icon">👁️</span>
+        <span>С нарушением зрения</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ================= 1. ОБЩИЕ ПРАВИЛА ================= -->
+  <section class="page" id="page-general">
+    <button class="back-btn" data-target="page-home">← На главную</button>
+    <div class="page-title">Общие правила общения</div>
+    <div class="page-subtitle">С пациентами-участниками СВО</div>
+
+    <div class="rule">
+      <strong>Не переживайте, что трудно и долго устанавливаете контакт</strong>
+      Участники СВО чётко разделяют «свой-чужой». Для них «свой» человек тот, кто «там был». Проявляйте терпение, и доверие придёт.
+    </div>
+
+    <div class="rule">
+      <strong>Не интересуйтесь конфиденциальной информацией</strong>
+      «Где служил?», «В каких операциях принимал участие?», «Где получил ранение?».
+    </div>
+
+    <div class="rule">
+      <strong>Конкретизируйте вопросы о состоянии здоровья</strong>
+      Заменяйте вопросы «Как себя чувствуете?», «Как дела?», которые могут спровоцировать резкий ответ, на более конкретные: «Как спалось?», «Как аппетит?», «Храпел ли сосед по палате?».
+    </div>
+
+    <div class="rule">
+      <strong>Не подходите к пациенту сзади</strong>
+      Не выполняйте манипуляций за его спиной. Следите, чтобы его тыл был защищён. Другие люди и работающее оборудование должны быть в поле его зрения. Высокая настороженность может привести к резким и импульсивным движениям, опасным для специалиста и окружающих. Полезно, если он будет повёрнут спиной к стене.
+    </div>
+
+    <div class="rule">
+      <strong>Не помогайте пациенту по собственной инициативе</strong>
+      Сначала предложите, дождитесь согласия. Затем уточните, что и как делать. Отнеситесь с пониманием, если помощь будет отвергнута.
+    </div>
+
+    <div class="rule">
+      <strong>Не смущайтесь, если ошиблись</strong>
+      Сказали «увидимся» или «вы слышали об этом» тому, кто не может видеть или слышать. Допустимо рукопожатие с тем, кому трудно двигать рукой или кто пользуется протезом.
+    </div>
+
+    <div class="tip">
+      Опирайтесь на здравый смысл и способность к сочувствию, когда сомневаетесь, как правильно вести себя. Открыто спросите: «Чем Вам помочь?», «Как я могу Вам помочь?»
+    </div>
+  </section>
+
+  <!-- ================= 2. ПСИХОЛОГИЧЕСКАЯ ТРАВМА ================= -->
+  <section class="page" id="page-trauma">
+    <button class="back-btn" data-target="page-home">← На главную</button>
+    <div class="page-title">Общение с пациентом, получившим психологическую травму</div>
+
+    <div class="signs">
+      <h3>🔍 Признаки</h3>
+      <ul>
+        <li>Навязчивые мысли, воспоминания, кошмары о травматическом событии.</li>
+        <li>Избегание мест, людей, ситуаций, напоминающих о травме.</li>
+        <li>Отрицательные изменения в настроении и мышлении: депрессия, тревога, чувство вины, беспричинное раздражение, потеря интереса к жизни.</li>
+        <li>Гипервозбудимость: чувство постоянной угрозы, сверхнастороженность, трудности с концентрацией, проблемы со сном, склонность к вспышкам гнева.</li>
+        <li>Рискованное поведение: импульсивные поступки, злоупотребление алкоголем или наркотиками, опасные ситуации.</li>
+        <li>Головные и мышечные боли, усталость, проблемы с пищеварением, тошнота, диарея, сердцебиение, одышка, гипервентиляция.</li>
+      </ul>
+    </div>
+
+    <div class="rules-section">
+      <h3>📋 Правила общения</h3>
+
+      <div class="rule">Выполняйте манипуляции и перемещайтесь без резких звуков и движений. Это сохранит комфорт и безопасность пациента.</div>
+      <div class="rule">Выражайте мысль точно и по делу. Избегайте словесных штампов и образных выражений, если не уверены, что пациент с ними знаком.</div>
+      <div class="rule">Избегайте высокомерия, думая, что вас не поймут в беседе.</div>
+      <div class="rule">Спрашивайте информацию «по шагам». Дайте возможность осознать каждый шаг после вопроса.</div>
+      <div class="rule">Будьте готовы повторять несколько раз один и тот же вопрос.</div>
+      <div class="rule">Исходите из того, что взрослый человек, получивший психическую травму, имеет такой же опыт, как и любой другой взрослый человек.</div>
+      <div class="rule">Помните, что такие люди дееспособны и могут подписывать документы, контракты, голосовать, давать согласие на медицинскую помощь и т.д.</div>
+    </div>
+  </section>
+
+  <!-- ================= 3. ВНЕШНИЕ ОТЛИЧИЯ ================= -->
+  <section class="page" id="page-appearance">
+    <button class="back-btn" data-target="page-home">← На главную</button>
+    <div class="page-title">Общение с пациентом с выраженными внешними отличиями</div>
+
+    <div class="signs">
+      <h3>🔍 Признаки</h3>
+      <ul>
+        <li>Раны, травмы, ожоги, утраты конечностей и органов.</li>
+      </ul>
+    </div>
+
+    <div class="rules-section">
+      <h3>📋 Правила общения</h3>
+
+      <div class="rule">Ознакомьтесь с диагнозом пациента заранее. Так вы подготовите своё восприятие, и стресс от увиденного будет ниже.</div>
+      <div class="rule">Не смотрите пристально на повреждение. Это может вызвать агрессию: «Чего? Противно!», «Что… не красивый теперь!».</div>
+      <div class="rule">Фокусируйте внимание на сохранных областях лица и тела. Помните, что при необычной внешности пациент ничем другим не отличается.</div>
+      <div class="rule">Сконцентрируйтесь на том, что говорит пациент, и больше спрашивайте, как сделать удобно, чем помочь.</div>
+    </div>
+  </section>
+
+  <!-- ================= 4. ОГРАНИЧЕНИЯ В ПЕРЕДВИЖЕНИИ ================= -->
+  <section class="page" id="page-mobility">
+    <button class="back-btn" data-target="page-home">← На главную</button>
+    <div class="page-title">Общение с пациентом, имеющим ограничения в передвижении</div>
+
+    <div class="signs">
+      <h3>🔍 Признаки</h3>
+      <ul>
+        <li>Отсутствие нижней конечности, хромота, волочение ноги, опора на трость, ходунки, передвижение на костылях или в коляске.</li>
+      </ul>
+    </div>
+
+    <div class="rules-section">
+      <h3>📋 Правила общения</h3>
+
+      <div class="rule">Соблюдайте неприкосновенность личного пространства человека с инвалидной коляской, ходунками. Не облокачивайтесь, не толкайте, не вешайте свои вещи без разрешения.</div>
+      <div class="rule">Не кладите пациенту в инвалидной коляске руку на спину или на плечо.</div>
+      <div class="rule">Располагайтесь так, чтобы ваши лица были на одном уровне. Избегайте положения, при котором пациенту нужно запрокидывать голову.</div>
+      <div class="rule">Помните, что у людей с трудностями в передвижении обычно нет проблем со зрением, слухом и пониманием.</div>
+      <div class="rule">Не думайте, что использование инвалидной коляски — это трагедия. Это способ свободного передвижения. Коляски используют, чтобы экономить силы и быстрее передвигаться.</div>
+    </div>
+  </section>
+
+  <!-- ================= 5. НАРУШЕНИЕ СЛУХА ================= -->
+  <section class="page" id="page-hearing">
+    <button class="back-btn" data-target="page-home">← На главную</button>
+    <div class="page-title">Общение с пациентом, имеющим нарушения слуха</div>
+
+    <div class="signs">
+      <h3>🔍 Признаки</h3>
+      <ul>
+        <li>Частое переспрашивание.</li>
+        <li>Трудности разговора одновременно с двумя и более собеседниками.</li>
+        <li>Замечание медперсоналу, что они бормочут себе под нос.</li>
+        <li>Трудности восприятия речи в шумной обстановке; тяжесть восприятия женских и детских голосов.</li>
+        <li>Просмотр телевизора, прослушивание радио на повышенной громкости.</li>
+        <li>Ответы невпопад, нередко звон в ушах.</li>
+        <li>Попытка читать по губам речь собеседника.</li>
+        <li>Поворачивание уха к собеседнику, когда он говорит.</li>
+        <li>Усталость после разговоров, раздражение на собеседников из-за неразборчивости их речи.</li>
+      </ul>
+    </div>
+
+    <div class="rules-section">
+      <h3>📋 Правила общения</h3>
+
+      <div class="rule">При разговоре смотрите прямо на пациента. Не затемняйте своё лицо и не загораживайте его руками или волосами — он должен следить за выражением вашего лица.</div>
+      <div class="rule">Некоторые люди могут слышать, но воспринимают отдельные звуки неправильно. Говорите громче и чётче, подбирая подходящий уровень. Иногда достаточно снизить высоту голоса, так как человек утратил способность воспринимать высокие частоты.</div>
+      <div class="rule">Говорите ясно и ровно. Не выделяйте интонацией что-то избыточно. Не кричите, особенно в ухо.</div>
+      <div class="rule">Уточните, возможно, переписываться будет легче.</div>
+      <div class="rule">Воздерживайтесь от улыбки — она искажает артикуляцию и затрудняет чтение по губам.</div>
+      <div class="rule">Для привлечения внимания пациента, который плохо слышит, назовите его по имени. Если ответа нет — слегка коснитесь человека или помашите рукой.</div>
+      <div class="rule">Не стесняйтесь уточнить, понял ли вас собеседник. Попросите его повторить важные места из сказанного.</div>
+      <div class="rule">Глухие люди используют язык жестов.</div>
+      <div class="rule">Если вы общаетесь через сопровождающее лицо, обращайтесь непосредственно к пациенту, а не к нему.</div>
+    </div>
+  </section>
+
+  <!-- ================= 6. НАРУШЕНИЕ ЗРЕНИЯ ================= -->
+  <section class="page" id="page-vision">
+    <button class="back-btn" data-target="page-home">← На главную</button>
+    <div class="page-title">Общение с пациентом, имеющим нарушения зрения</div>
+
+    <div class="signs">
+      <h3>🔍 Признаки</h3>
+      <ul>
+        <li>Прищуривание или моргание глазами, чтобы разглядеть предмет на расстоянии.</li>
+        <li>Двоение в глазах и размытость изображения.</li>
+        <li>Трудности в различении предметов в тёмное время суток или в полумраке.</li>
+        <li>Головная боль или болевые ощущения в глазном яблоке при фокусировании взгляда на предмете.</li>
+      </ul>
+    </div>
+
+    <div class="rules-section">
+      <h3>📋 Правила общения</h3>
+
+      <div class="rule">Обращайтесь непосредственно к человеку, даже если он вас не видит, а не к его зрячему сопровождающему.</div>
+      <div class="rule">Всегда называйте себя.</div>
+      <div class="rule">Если вы хотите пожать руку, скажите об этом.</div>
+      <div class="rule">Не заставляйте собеседника вещать в пустоту: если вы перемещаетесь, предупредите его. Не оставляйте его долгое время в тишине.</div>
+      <div class="rule">Если вы собираетесь читать незрячему человеку, сначала предупредите об этом. Не пропускайте информацию, если вас об этом не попросят.</div>
+      <div class="rule">Когда незрячий человек должен подписать документ, прочитайте его обязательно. Инвалидность не освобождает слепого человека от ответственности, обусловленной документом.</div>
+      <div class="rule">Когда вы предлагаете незрячему человеку сесть, не усаживайте его, а направьте руку на спинку стула или подлокотник.</div>
+      <div class="rule">Не водите по поверхности его руку, а дайте возможность свободно потрогать предмет.</div>
+      <div class="rule">Не смущайтесь, если употребляете слово «смотреть». Для незрячего человека это означает «видеть руками».</div>
+      <div class="rule">Избегайте расплывчатых определений и инструкций в беседе.</div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const pages = document.querySelectorAll('.page');
+
+  function showPage(id) {
+    pages.forEach(p => p.classList.toggle('active', p.id === id));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Кнопки главного меню
+  document.querySelectorAll('.menu-card').forEach(btn => {
+    btn.addEventListener('click', () => showPage(btn.dataset.target));
+  });
+
+  // Кнопки «На главную»
+  document.querySelectorAll('.back-btn').forEach(btn => {
+    btn.addEventListener('click', () => showPage(btn.dataset.target));
+  });
+});
+</script>
+</body>
+</html>
